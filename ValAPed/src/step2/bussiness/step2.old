@@ -1,0 +1,206 @@
+package step2.bussiness;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import FileHelpers.ExcelFormat;
+import Util.Util;
+import manager.filaManager;
+import step1.dto.fila;
+
+public class step2OLD
+{
+
+	private ExcelFormat		excelHelper;
+	private File			file;
+	private XSSFWorkbook	wb;
+	private XSSFSheet		sh;
+
+	public step2OLD()
+	{
+		excelHelper = new ExcelFormat();
+	}
+
+	public void selectFile()
+	{
+		file = Util.saveFile("Nombre del archivo", excelHelper);
+
+		wb = new XSSFWorkbook();
+		sh = wb.createSheet();
+
+		parseFile();
+		
+		excelHelper.Grabar(wb, file.getAbsolutePath());
+	}
+
+	private void parseFile()
+	{
+//		int totalCajasConvertido = 0;
+//		int totalConvertido = 0;
+		
+		// Escribimos las cajas
+//		Row cajasHeader = sh.createRow(0);
+//		Cell title = cajasHeader.createCell(0);
+//		title.setCellValue("CAJAS");
+//
+		Row columnsHeader	= sh.createRow(1);
+		Cell eanHeader		= columnsHeader.createCell(0);
+		Cell rawDescHeader	= columnsHeader.createCell(1);
+		Cell refHeader		= columnsHeader.createCell(2);
+		Cell udsCajaHeader	= columnsHeader.createCell(3);
+		Cell udsHeader		= columnsHeader.createCell(6);
+		Cell precioHeader	= columnsHeader.createCell(7);
+		Cell valHeader		= columnsHeader.createCell(8);
+
+//		Cell colorHeader	= columnsHeader.createCell(3);
+//		Cell tallaHeader	= columnsHeader.createCell(4);
+
+		eanHeader.setCellValue("EAN");
+		refHeader.setCellValue("REF");
+		rawDescHeader.setCellValue("DESCRIPCION");
+//		colorHeader.setCellValue("COLOR");
+//		tallaHeader.setCellValue("TALLA");
+		udsCajaHeader.setCellValue("UDS ENVASE");
+		udsHeader.setCellValue("UDS");
+		precioHeader.setCellValue("PRECIO");
+		valHeader.setCellValue("TOTAL");
+//
+//		int i = 2;
+//		int totalCajas = 0;
+//		double totalVal = 0;
+//		for (fila fila : filaManager.getCajas())
+//		{
+//			Row columnsValue = sh.createRow(i);
+//			i++;
+//			
+//			Cell eanValue		= columnsValue.createCell(0);
+//			Cell refValue		= columnsValue.createCell(1);
+//			Cell rawDescValue	= columnsValue.createCell(2);
+//			Cell colorValue		= columnsValue.createCell(3);
+//			Cell tallaValue		= columnsValue.createCell(4);
+//			Cell udsCajaValue	= columnsValue.createCell(5);
+//			Cell udsValue		= columnsValue.createCell(6);
+//			Cell precioValue	= columnsValue.createCell(7);
+//			Cell valValue		= columnsValue.createCell(8);
+//
+//			eanValue.setCellValue(fila.getEan());
+//			refValue.setCellValue(fila.getRef());
+//			rawDescValue.setCellValue(fila.getRawDesc());
+//			colorValue.setCellValue(fila.getColor());
+//			tallaValue.setCellValue(fila.getTalla());
+//			udsCajaValue.setCellValue(fila.getUdsBox());
+//			udsValue.setCellValue(fila.getUds());
+//			precioValue.setCellValue(fila.getPrecio());
+//			valValue.setCellValue(fila.getVal());
+//			
+//			totalCajas	+= fila.getUds();
+//			totalVal	+= fila.getVal();
+//			
+//			totalCajasConvertido += fila.getUdsBox() * fila.getUds();
+//		}
+//		
+//		Row totalsValue		= sh.createRow(i);
+//		i++;
+//		Cell titleValue		= totalsValue.createCell(0);
+//		Cell udsValue		= totalsValue.createCell(6);
+//		Cell valValue		= totalsValue.createCell(8);
+//		titleValue.setCellValue("TOTAL CAJAS:");
+//		udsValue.setCellValue(totalCajas);
+//		valValue.setCellValue(totalVal);
+//
+//		i++;
+//		i++;
+		
+		int i =2;
+		// Escribimos las unidades
+		Row unidadesHeader = sh.createRow(i);
+		i++;
+		Cell title = unidadesHeader.createCell(0);
+		title.setCellValue("UNIDADES");
+
+		columnsHeader = sh.createRow(i);
+		i++;
+		eanHeader		= columnsHeader.createCell(0);
+		refHeader		= columnsHeader.createCell(1);
+		rawDescHeader	= columnsHeader.createCell(2);
+//		Cell colorHeader	= columnsHeader.createCell(3);
+//		Cell tallaHeader	= columnsHeader.createCell(4);
+		
+		Cell udsHeader		= columnsHeader.createCell(6);
+		Cell precioHeader	= columnsHeader.createCell(7);
+		Cell valHeader		= columnsHeader.createCell(8);
+
+		eanHeader.setCellValue("EAN");
+		refHeader.setCellValue("REF");
+		rawDescHeader.setCellValue("DESCRIPCION");
+		colorHeader.setCellValue("COLOR");
+		tallaHeader.setCellValue("TALLA");
+		udsHeader.setCellValue("UDS CAJA");
+		udsHeader.setCellValue("UDS");
+		precioHeader.setCellValue("PRECIO");
+		valHeader.setCellValue("TOTAL");
+
+		int totalUnidades = 0;
+		double totalUdsVal = 0;
+		for (fila fila : filaManager.getUnidades())
+		{
+			Row columnsValue = sh.createRow(i);
+			i++;
+			
+			Cell eanValue		= columnsValue.createCell(0);
+			Cell refValue		= columnsValue.createCell(1);
+			Cell rawDescValue	= columnsValue.createCell(2);
+			Cell colorValue		= columnsValue.createCell(3);
+			Cell tallaValue		= columnsValue.createCell(4);
+			Cell udsValue		= columnsValue.createCell(6);
+			Cell precioValue	= columnsValue.createCell(7);
+			Cell valValue		= columnsValue.createCell(8);
+
+			eanValue.setCellValue(fila.getEan());
+			refValue.setCellValue(fila.getRef());
+			rawDescValue.setCellValue(fila.getRawDesc());
+			colorValue.setCellValue(fila.getColor());
+			tallaValue.setCellValue(fila.getTalla());
+			udsValue.setCellValue(fila.getUds());
+			precioValue.setCellValue(fila.getPrecio());
+			valValue.setCellValue(fila.getVal());
+			
+			totalUnidades	+= fila.getUds();
+			totalUdsVal		+= fila.getVal();
+		}
+		
+		XSSFRow totalsValue = sh.createRow(i);
+		i++;
+		Cell titleValue		= totalsValue.createCell(0);
+		Cell udsValue		= totalsValue.createCell(6);
+		Cell valValue		= totalsValue.createCell(8);
+		titleValue.setCellValue("TOTAL UNIDADES:");
+		udsValue.setCellValue(totalUnidades);
+		valValue.setCellValue(totalUdsVal);
+		
+//		totalConvertido = totalUnidades + totalCajasConvertido;
+//		totalsValue		= sh.createRow(i);
+//		i++;
+//		titleValue		= totalsValue.createCell(0);
+//		udsValue		= totalsValue.createCell(6);
+//		titleValue.setCellValue("TOTAL CONVERTIDO:");
+//		udsValue.setCellValue(totalConvertido);
+		
+		sh.autoSizeColumn(0);
+		sh.autoSizeColumn(1);
+		sh.autoSizeColumn(2);
+		sh.autoSizeColumn(3);
+		sh.autoSizeColumn(4);
+		sh.autoSizeColumn(5);
+		sh.autoSizeColumn(6);
+		sh.autoSizeColumn(7);
+		sh.autoSizeColumn(8);
+	}
+}
