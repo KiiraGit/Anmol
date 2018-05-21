@@ -4,10 +4,16 @@ import javax.swing.JOptionPane;
 
 import step1.bussiness.step1;
 import step2.bussiness.step2;
+import step3.bussiness.step3;
 
 public class mainCtrl
 {
 	public static void main(String[] args)
+	{
+		runStep3();
+	}
+	
+	private static void runStep1()
 	{
 		step1	step1 = new step1();
 				step1.selectOpenFile();
@@ -15,8 +21,14 @@ public class mainCtrl
 				step1.selectSaveFile();
 				
 				JOptionPane.showMessageDialog(null, "Finalizado");
-				
-//		step2	step2 = new step2();
-//				step2.selectFile();
+	}
+	
+	private static void runStep3()
+	{
+		step3 	step3 = new step3();
+				step3.selectOpenFile();
+				step3.selectSaveFile();
+		
+				JOptionPane.showMessageDialog(null, "Finalizado");
 	}
 }
