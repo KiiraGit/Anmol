@@ -3,14 +3,13 @@ package main;
 import javax.swing.JOptionPane;
 
 import step1.bussiness.step1;
-import step2.bussiness.step2;
 import step3.bussiness.step3;
 
 public class mainCtrl
 {
 	public static void main(String[] args)
 	{
-		runStep3();
+		runStep1();
 	}
 	
 	private static void runStep1()

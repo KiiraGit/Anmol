@@ -107,10 +107,8 @@ public class step1
 	{
 		int totalRealUds = 0;
 		double totalRealVal = 0;
-		
-		HashMap<String, XSSFFont> fonts = createFonts(out_wb);
 
-		Row columnsHeader = out_sh.createRow(3);
+		Row columnsHeader = out_sh.createRow(0);
 		Cell eanHeader = columnsHeader.createCell(0);
 		Cell rawDescHeader = columnsHeader.createCell(1);
 		Cell refHeader = columnsHeader.createCell(2);
@@ -120,17 +118,6 @@ public class step1
 		Cell precioHeader = columnsHeader.createCell(6);
 		Cell subtotalHeader = columnsHeader.createCell(7);
 		Cell totalHeader = columnsHeader.createCell(8);
-
-		CellStyle style = columnsHeader.getRowStyle();
-		if (style == null)
-		{
-			style = out_wb.createCellStyle();
-			columnsHeader.setRowStyle(style);
-		}
-	    style.setFillBackgroundColor(IndexedColors.ORANGE.getIndex());
-	    style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-	    style.setAlignment(CellStyle.ALIGN_CENTER);
-	    style.setFont(fonts.get("title"));
 
 		eanHeader.setCellValue("EAN");
 		rawDescHeader.setCellValue("DESCRIPCION");
@@ -142,20 +129,12 @@ public class step1
 		subtotalHeader.setCellValue("SUBTOTAL STOCK");
 		totalHeader.setCellValue("TOTAL");
 
-		int i = 4;
+		int i = 1;
 		// Escribimos las unidades
 		for (fila fila : filaManager.getUnidades())
 		{
 			Row columnsValue = out_sh.createRow(i);
 			i++;
-			
-			style = columnsValue.getRowStyle();
-			if (style == null)
-			{
-				style = out_wb.createCellStyle();
-				columnsValue.setRowStyle(style);
-			}
-		    style.setFont(fonts.get("base"));
 
 			Cell eanCell = columnsValue.createCell(0);
 			Cell rawDescCell = columnsValue.createCell(1);
@@ -166,9 +145,9 @@ public class step1
 			Cell precioCell = columnsValue.createCell(6);
 			Cell subtotalCell = columnsValue.createCell(7);
 
-			eanCell.setCellValue(fila.getEan());
+			eanCell.setCellValue(fila.getMyCaja().getEan());
+			rawDescCell.setCellValue(fila.getMyCaja().getRawDesc());
 			refCell.setCellValue(fila.getRef());
-			rawDescCell.setCellValue(fila.getRawDesc());
 			colorCell.setCellValue(fila.getColor());
 			tallaCell.setCellValue(fila.getTalla());
 
@@ -185,43 +164,14 @@ public class step1
 		Row totalsValue = out_sh.createRow(i);
 		i++;
 		
-		style = totalsValue.getRowStyle();
-		if (style == null)
-		{
-			style = out_wb.createCellStyle();
-			totalsValue.setRowStyle(style);
-		}
-	    style.setFont(fonts.get("baseBold"));
-		
-//		Cell titleValue = totalsValue.createCell(0);
 		Cell udsValue = totalsValue.createCell(5);
 		Cell valValue = totalsValue.createCell(7);
-//		titleValue.setCellValue("TOTAL:");
 		udsValue.setCellValue(totalRealUds);
 		valValue.setCellValue(totalRealVal);
-
-		// Escribimos la valoracion en las lineas 2 y 3
-		totalsValue = out_sh.createRow(1);
-
-		style = totalsValue.getRowStyle();
-		if (style == null)
-		{
-			style = out_wb.createCellStyle();
-			totalsValue.setRowStyle(style);
-		}
-	    style.setFont(fonts.get("subtitle"));
 	    
-	    Row row = out_sh.getRow(4);
-//		Cell valTitle = totalsValue.createCell(8);
+	    Row row = out_sh.getRow(1);
 		Cell totalValue = row.createCell(8);
-//		valTitle.setCellValue("TOTAL INVENTARIO");
 		totalValue.setCellValue(totalRealVal);
-//		
-//		totalsValue = out_sh.createRow(2);
-//		Cell udsTitle = totalsValue.createCell(8);
-//		udsValue = totalsValue.createCell(9);
-//		udsTitle.setCellValue("TOTAL UNIDADES");
-//		udsValue.setCellValue(totalRealUds);
 
 		out_sh.autoSizeColumn(0);
 		out_sh.autoSizeColumn(1);

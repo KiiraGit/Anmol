@@ -183,6 +183,20 @@ public class fila
 		}
 		else return 0;
 	}
+	
+	public fila getMyCaja()
+	{
+		
+		for (fila fila : filaManager.getCajas())
+		{
+			if (fila.esCajaDe(this))
+			{
+				return fila;
+			}
+		}
+		
+		return null;
+	}
 
 	private boolean esCajaDe(fila fila)
 	{
