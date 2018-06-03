@@ -55,7 +55,7 @@ public class fila
 		if (matcher.find())
 		{
 			tipoEnvase = matcher.group(0).trim();
-			System.out.println("TIPO ENVASE: " + tipoEnvase);
+//			System.out.println("TIPO ENVASE: " + tipoEnvase);
 			desc = desc.replace(tipoEnvase, "").trim();
 			
 			pattern = Pattern.compile(NUM_ENVASE_PATTERN);
@@ -66,7 +66,7 @@ public class fila
 				int num = Integer.parseInt(matcher.group(0));
 				udsBox = num;
 			}
-			System.out.println("UDS: " + udsBox);
+//			System.out.println("UDS: " + udsBox);
 		}
 		else
 		{
@@ -81,7 +81,7 @@ public class fila
 		{
 			String marcaRef = matcher.group(0).trim();
 			
-			System.out.println("MARCA REF: " + marcaRef);
+//			System.out.println("MARCA REF: " + marcaRef);
 			desc = desc.replace(matcher.group(0), "").trim();
 			
 			pattern = Pattern.compile(REF_ENVASE_PATTERN);
@@ -90,13 +90,17 @@ public class fila
 			if (matcher.find())
 			{
 				ref = matcher.group(0);
-				System.out.println("REF: " + ref);
+//				System.out.println("REF: " + ref);
 			}
 		}
 		else
 		{
 			filaManager.addError(this);
 			return;
+		}
+		if (ean.trim().equals("8422390485151"))
+		{
+			System.out.println();
 		}
 		
 		int wsPos = desc.lastIndexOf(" ");
@@ -107,7 +111,7 @@ public class fila
 			desc = desc.substring(0, wsPos).trim();
 			
 			setTalla(talla);
-			System.out.println("TALLA: " + talla);
+//			System.out.println("TALLA: " + talla);
 		}
 		
 		wsPos = desc.lastIndexOf(" ");
@@ -118,12 +122,12 @@ public class fila
 			desc = desc.substring(0, wsPos).trim();
 			
 			setColor(color);
-			System.out.println("COLOR: " + color);
+//			System.out.println("COLOR: " + color);
 		}
 		
-		System.out.println("\n");
-		System.out.println("DESC: " + desc);
-		System.out.println("RAW: " + rawDesc);
+//		System.out.println("\n");
+//		System.out.println("DESC: " + desc);
+//		System.out.println("RAW: " + rawDesc);
 
 		if (udsBox > 0)
 		{
@@ -144,9 +148,9 @@ public class fila
 		else
 		{
 			filaManager.addUnidad(this);
-			System.out.println(filaManager.getTotal().indexOf(this) + 1 + 3);
+//			System.out.println(filaManager.getTotal().indexOf(this) + 1 + 3);
 		}
-		System.out.println("\n\n");
+//		System.out.println("\n\n");
 	}
 	
 	public void calculateRealStock()
@@ -157,8 +161,8 @@ public class fila
 		{
 			if (!filaManager.getErrores().contains(fila) && !filaManager.getUnidades().contains(fila) && fila.esCajaDe(this))
 			{
-				System.out.println("STOCK UNIDAD: " + stockReal);
-				System.out.println("STOCK CAJA UDS: " + fila.getRealStock());
+//				System.out.println("STOCK UNIDAD: " + stockReal);
+//				System.out.println("STOCK CAJA UDS: " + fila.getRealStock());
 				stockReal += fila.getRealStock();
 			}
 		}
@@ -346,5 +350,23 @@ public class fila
 	public String getTipoEnvase()
 	{
 		return tipoEnvase;
+	}
+	
+	public String toString()
+	{
+		StringBuilder string = new StringBuilder();
+		string.append("EAN: " + ean + "\t");
+		string.append("REF: " + ref + "\t");
+		string.append("DES: " + desc + "\t");
+		string.append("RAW: " + rawDesc + "\t");
+		string.append("TAL: " + talla + "\t");
+		string.append("COL: " + color + "\t");
+		string.append("UDS: " + uds + "\t");
+		string.append("PRE: " + precio + "\t");
+		string.append("VAL: " + val + "\t");
+		string.append("BOX: " + udsBox + "\t");
+		string.append("ENV: " + tipoEnvase);
+		
+		return string.toString();
 	}
 }

@@ -91,6 +91,7 @@ public class step1
 						"Hoja leída correctamente. (" + filaManager.getTotal().size() + " filas)" + "\nCajas: "
 								+ filaManager.getCajas().size() + "\nUnidades: " + filaManager.getUnidades().size()
 								+ "\nErrores: " + filaManager.getErrores().size());
+				break;
 			}
 		}
 	}
@@ -99,7 +100,14 @@ public class step1
 	{
 		for (fila fila : filaManager.getUnidades())
 		{
-			fila.calculateRealStock();
+			try
+			{
+				fila.calculateRealStock();
+			} catch (NullPointerException ex)
+			{
+//				JOptionPane.showMessageDialog(null, "Error en " + fila.getRawDesc());
+				System.out.println(fila.toString());
+			}
 		}
 	}
 
